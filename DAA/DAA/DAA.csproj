@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DwarItem.cs" />
+    <Compile Include="dwarAPI.cs" />
     <Compile Include="DwarRequest.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

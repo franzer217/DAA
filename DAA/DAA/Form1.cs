@@ -89,7 +89,7 @@ namespace DAA
                     HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
                     if (itemList == null)
                         continue;
-                    List<HtmlNode> items = itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
+                   . List<HtmlNode> itemsNodes = itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
                     foreach(HtmlNode item in items)
                     {
                         command.CommandText = "REPLACE INTO items (lotID, itemID, itemName, itemCategory, itemStrength, itemTime, itemCount, itemBid, itemBuyOut) VALUES(@lotID, @itemID, @itemName, @itemCategory, @itemStrength, @itemTime, @itemCount, @itemBid, @itemBuyOut)";
