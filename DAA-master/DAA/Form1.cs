@@ -27,7 +27,7 @@ namespace DAA
                 cookie = new CookieContainer();
                 string test = DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=zadisa2006@mail.ru&passwd=ee34nf3o&x=59&y=17");
                 test = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
-                MessageBox.Show("Авторизован");
+              //  MessageBox.Show("Авторизован");
 
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(test);
@@ -63,8 +63,8 @@ namespace DAA
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlCommand command = new MySqlCommand();
@@ -74,7 +74,7 @@ namespace DAA
                 connection.Open();
                 connection2.Open();
                 command.Connection = connection;
-                command.CommandText = "CREATE TABLE IF NOT EXISTS items (itemID NVARCHAR(30) PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemTime NVARCHAR(10), itemCount NVARCHAR(10), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, lotID NVARCHAR(30), itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemDurability NVARCHAR(10), itemTime NVARCHAR(10), itemCount NVARCHAR(10), pricePerOne NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50));";
                 command.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 MySqlDataReader reader = command.ExecuteReader();
@@ -86,9 +86,24 @@ namespace DAA
 
                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    HtmlNode itemList = doc.DocumentNode.SelectSingleNode("//select[@id='item_list']");
-                    HtmlNodeCollection items = itemList.SelectNodes(".//tr[@class='brd2-top']");
-
+                    HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
+                    if (itemList == null)
+                        continue;
+                    List<HtmlNode> items = itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
+                    foreach(HtmlNode item in items)
+                    {
+                        command.CommandText = "REPLACE INTO items (lotID, itemID, itemName, itemCategory, itemStrength, itemTime, itemCount, itemBid, itemBuyOut) VALUES(@lotID, @itemID, @itemName, @itemCategory, @itemStrength, @itemTime, @itemCount, @itemBid, @itemBuyOut)";
+                        command.Parameters.AddWithValue("@lotID", (string)item.SelectSingleNode());
+                        command.Parameters.AddWithValue("@itemName", (string)record[1]);
+                        command.Parameters.AddWithValue("@itemCategory", (string)record[2]);
+                        command.Parameters.AddWithValue("@itemStrength", (string)record[3]);
+                        command.Parameters.AddWithValue("@itemTime", (string)record[4]);
+                        command.Parameters.AddWithValue("@itemCount", (string)record[5]);
+                        command.Parameters.AddWithValue("@itemBid", (string)record[6]);
+                        command.Parameters.AddWithValue("@itemBuyOut", (string)record[7]);
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
  /*                   if (items.Count!=0)
                     {
                         
@@ -127,11 +142,13 @@ namespace DAA
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+            //}
+            //catch (Exception exception)
+            //{
+            //    MessageBox.Show(exception.Message);
+            //    MessageBox.Show(exception.Data.Values.ToString());
+
+            //}
         }
     }
 }
