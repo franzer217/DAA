@@ -9,7 +9,10 @@ using System.Text;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
+//Дата первого обнаружения, дата выхода лота с аукциона, выкупили/вышло по таймауту, времени до выхода с аукциона, наличие, дата текущего обнаружения(Если поле меньше текущей даты на n минут - предмета нет)
+//Сделать нормальные типы данных у столбцов таблиц
 namespace DAA
 {
     public partial class Form1 : Form
@@ -74,70 +77,35 @@ namespace DAA
                 connection.Open();
                 connection2.Open();
                 command.Connection = connection;
-                command.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, lotID NVARCHAR(30), itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemDurability NVARCHAR(10), itemTime NVARCHAR(10), itemCount NVARCHAR(10), pricePerOne NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50));";
                 command.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 MySqlDataReader reader = command.ExecuteReader();
+                command.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut) VALUES(@lotID, @itemName, @itemCategory, @itemStrength, @itemCount, @pricePerPiece, @itemBid, @itemBuyOut)";
                 while (reader.Read())
                 {
-                    int i = 0;
                     command.Connection = connection2;
-                    html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=" + i, ref cookie);
+                    html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=0", ref cookie);
 
                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
-                    if (itemList == null)
+                    List<HtmlNode> items = dwarAPI.getItemNodes(doc);
+                    if (items == null)
                         continue;
-                   . List<HtmlNode> itemsNodes = itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
-                    foreach(HtmlNode item in items)
-                    {
-                        command.CommandText = "REPLACE INTO items (lotID, itemID, itemName, itemCategory, itemStrength, itemTime, itemCount, itemBid, itemBuyOut) VALUES(@lotID, @itemID, @itemName, @itemCategory, @itemStrength, @itemTime, @itemCount, @itemBid, @itemBuyOut)";
-                        command.Parameters.AddWithValue("@lotID", (string)item.SelectSingleNode());
-                        command.Parameters.AddWithValue("@itemName", (string)record[1]);
-                        command.Parameters.AddWithValue("@itemCategory", (string)record[2]);
-                        command.Parameters.AddWithValue("@itemStrength", (string)record[3]);
-                        command.Parameters.AddWithValue("@itemTime", (string)record[4]);
-                        command.Parameters.AddWithValue("@itemCount", (string)record[5]);
-                        command.Parameters.AddWithValue("@itemBid", (string)record[6]);
-                        command.Parameters.AddWithValue("@itemBuyOut", (string)record[7]);
-                        command.ExecuteNonQuery();
-                        command.Parameters.Clear();
-                    }
- /*                   if (items.Count!=0)
-                    {
-                        
-                        foreach (HtmlNode item  in items)
-                        {
-                            command.CommandText = "REPLACE INTO items (itemID, itemName, itemCategory, itemStrength, itemTime, itemCount, itemBid, itemBuyOut) VALUES(@itemID, @itemName, @itemCategory, @itemStrength, @itemTime, @itemCount, @itemBid, @itemBuyOut)";
-                            command.Parameters.AddWithValue("@itemID", (string)record[0]);
-                            command.Parameters.AddWithValue("@itemName", (string)record[1]);
-                            command.Parameters.AddWithValue("@itemCategory", (string)record[2]);
-                            command.Parameters.AddWithValue("@itemStrength", (string)record[3]);
-                            command.Parameters.AddWithValue("@itemTime", (string)record[4]);
-                            command.Parameters.AddWithValue("@itemCount", (string)record[5]);
-                            command.Parameters.AddWithValue("@itemBid", (string)record[6]);
-                            command.Parameters.AddWithValue("@itemBuyOut", (string)record[7]);
-                            command.ExecuteNonQuery();
-                            command.Parameters.Clear();
-                        }
-                    }
+                    int number = dwarAPI.pageCount(doc);
 
-                    JSValue itemData = webControl1.ExecuteJavascriptWithResult(itemsForDb);
-                    addItems(itemData, command);
+                    dwarAPI.addItems(items, command);
 
-                    JSValue pages = webControl1.ExecuteJavascriptWithResult(pagesNumber);
-                    int number = Convert.ToInt32((int)pages);
-                    for (; i < number; i++)
+                    for (int i = 1; i < number; i++)
                     {
-                        webControl1.LoadingFrameComplete += Awesomium_Windows_Forms_WebControl_LoadingFrameComplete;
-                        webControl1.Source = new Uri("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=" + i);
-                        loadPage();
+                        html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=" + i, ref cookie);
+                        doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.LoadHtml(html);
 
-                        itemData = webControl1.ExecuteJavascriptWithResult(itemsForDb);
-                        addItems(itemData, command);
+                        items = dwarAPI.getItemNodes(doc);
+                        dwarAPI.addItems(items, command);
                     }
-                    command.Connection = connection;*/
+                    command.Connection = connection;
                 }
                 connection.Close();
                 connection2.Close();
