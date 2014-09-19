@@ -100,7 +100,7 @@ namespace DAA
                 {
                     command.CommandText = command.CommandText + "('" + item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "") + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
                         + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
-                        + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "'),";
+                        + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'),";
                 }
                 catch (NullReferenceException)
                 {
@@ -119,7 +119,7 @@ namespace DAA
         {
             try
             {
-                MessageBox.Show("Сканирование начато");
+                MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlCommand command = new MySqlCommand();
@@ -131,11 +131,11 @@ namespace DAA
                 connection2.Open();
                 command.Connection = connection;
                 command2.Connection = connection2;
-                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50));";
+                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME);";
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 MySqlDataReader reader = command.ExecuteReader();
-                command2.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut) VALUES";
+                command2.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime) VALUES";
 
                 while (reader.Read())
                 {
@@ -165,7 +165,7 @@ namespace DAA
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-                MessageBox.Show("Сканирование завершено");
+                MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
             }
             catch (Exception exception)
             {
