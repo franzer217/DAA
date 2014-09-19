@@ -94,13 +94,24 @@ namespace DAA
         }
         public static void addItems(List<HtmlNode> nodes, MySqlCommand command)
         {
+            DateTime localDateTime;
+            DateTime lotExpiration;
+            string buyedOut; 
+            string localDateTimeStr;
             foreach (HtmlNode item in nodes)
             {
                 try
                 {
-                    command.CommandText = command.CommandText + "('" + item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "") + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
+                    localDateTime = DateTime.UtcNow.ToUniversalTime();
+                    localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    //Заменить 5 переменной из XML
+                    buyedOut = "IF(" + localDateTimeStr + ">lotEndTime) THEN '2' ELSE IF(DATEADD(mi,5,lastUpdateTime)<" + localDateTimeStr + ") THEN '1' ELSE '0'";
+                    lotExpiration = lotEndTime(item, localDateTime);
+                    command.CommandText = command.CommandText + "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
                         + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
-                        + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'),";
+                        + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','"
+                        + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
+                        + (int)(lotExpiration - DateTime.UtcNow.ToUniversalTime()).TotalSeconds + "','" + "1" + "'),";
                 }
                 catch (NullReferenceException)
                 {
@@ -131,11 +142,11 @@ namespace DAA
                 connection2.Open();
                 command.Connection = connection;
                 command2.Connection = connection2;
-                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID NVARCHAR(30) PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME);";
+                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 MySqlDataReader reader = command.ExecuteReader();
-                command2.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime) VALUES";
+                command2.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, secondsLeft, subsists) VALUES";
 
                 while (reader.Read())
                 {
@@ -159,7 +170,7 @@ namespace DAA
                         addItems(items, command2);
                     }
                 }
-                command2.CommandText = command2.CommandText.TrimEnd(',') + ";";
+                command2.CommandText = command2.CommandText.TrimEnd(',') + "ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = VALUES(secondLeft), buyedOut = VALUES(buyedOut), subsists = VALUES(subsists)" + ";";
                 command2.ExecuteNonQuery();
 
                 connection.Close();
@@ -171,6 +182,22 @@ namespace DAA
             {
                 MessageBox.Show(exception.Message);
                 MessageBox.Show(exception.Data.Values.ToString());
+            }
+        }
+
+        public static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
+        {
+            string timeLeft = node.SelectSingleNode("td[3]").InnerText;
+            switch(timeLeft)
+            {
+                case "Мало":
+                    return currentTime.AddHours(2.0);
+                case "Средне":
+                    return currentTime.AddHours(8.0);
+                case "Много":
+                    return currentTime.AddDays(1.0);
+                default:
+                    return DateTime.Now;
             }
         }
     }
