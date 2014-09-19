@@ -96,7 +96,6 @@ namespace DAA
         {
             DateTime localDateTime;
             DateTime lotExpiration;
-            string buyedOut; 
             string localDateTimeStr;
             foreach (HtmlNode item in nodes)
             {
@@ -105,7 +104,7 @@ namespace DAA
                     localDateTime = DateTime.UtcNow.ToUniversalTime();
                     localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                     //Заменить 5 переменной из XML
-                    buyedOut = "IF(" + localDateTimeStr + ">lotEndTime) THEN '2' ELSE IF(DATEADD(mi,5,lastUpdateTime)<" + localDateTimeStr + ") THEN '1' ELSE '0'";
+                    //buyedOut = "IF(" + localDateTimeStr + ">lotEndTime) THEN '2' ELSE IF(DATEADD(mi,5,lastUpdateTime)<" + localDateTimeStr + ") THEN '1' ELSE '0'";
                     lotExpiration = lotEndTime(item, localDateTime);
                     command.CommandText = command.CommandText + "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
                         + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
@@ -146,7 +145,7 @@ namespace DAA
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 MySqlDataReader reader = command.ExecuteReader();
-                command2.CommandText = "REPLACE INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, secondsLeft, subsists) VALUES";
+                command2.CommandText = "INSERT INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, lastUpdateTime, secondsLeft, subsists) VALUES";
 
                 while (reader.Read())
                 {
@@ -170,9 +169,10 @@ namespace DAA
                         addItems(items, command2);
                     }
                 }
-                command2.CommandText = command2.CommandText.TrimEnd(',') + "ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = VALUES(secondLeft), buyedOut = VALUES(buyedOut), subsists = VALUES(subsists)" + ";";
+                command2.CommandText = command2.CommandText.TrimEnd(',') + " ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = VALUES(secondsLeft);";
                 command2.ExecuteNonQuery();
-
+                command2.CommandText = "UPDATE items SET subsists = '0' WHERE DATE_ADD(lastUpdateTime, INTERVAL 5 MINUTE)<'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'; UPDATE items SET buyedOut = IF (secondsLeft < 1, '0', IF('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "' > lotEndTime,'2','1')) WHERE subsists='0';";
+                command2.ExecuteNonQuery();
                 connection.Close();
                 connection2.Close();
                 reader.Close();
