@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DAA
@@ -56,14 +57,17 @@ namespace DAA
 
         public static void login()
         {
+            cookie = new CookieContainer();
+            DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=zadisa2006@mail.ru&passwd=ee34nf3o&x=59&y=17");
+        }
+
+        public static void getCategories()
+        {
             try
             {
-                cookie = new CookieContainer();
-                string test = DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=zadisa2006@mail.ru&passwd=ee34nf3o&x=59&y=17");
-                test = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
-
+                string html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(test);
+                doc.LoadHtml(html);
                 HtmlNode filter = doc.DocumentNode.SelectSingleNode("//select[@name='_filter[kind]']");
                 HtmlNodeCollection categories = filter.SelectNodes(".//option");
 
@@ -92,6 +96,7 @@ namespace DAA
                 MessageBox.Show(exception.Message);
             }
         }
+
         public static void addItems(List<HtmlNode> nodes, MySqlCommand command)
         {
             DateTime localDateTime;
@@ -129,7 +134,7 @@ namespace DAA
         {
             try
             {
-                MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                //MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlCommand command = new MySqlCommand();
@@ -176,7 +181,7 @@ namespace DAA
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-                MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                //MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
             }
             catch (Exception exception)
             {
@@ -198,6 +203,24 @@ namespace DAA
                     return currentTime.AddDays(1.0);
                 default:
                     return DateTime.Now;
+            }
+        }
+
+        public static void startNewThread()
+        {
+            try
+            {
+                while(true)
+                {               
+                    Thread myThread = new Thread(scanItems);
+                    myThread.Start();
+                    Thread.Sleep(30000);
+                }         
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.Data.Values.ToString());
             }
         }
     }

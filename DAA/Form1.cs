@@ -41,7 +41,7 @@ namespace DAA
         {
             try
             {
-                Thread myThread = new Thread(DwarAPI.scanItems);
+                Thread myThread = new Thread(DwarAPI.startNewThread);
                 myThread.Start();
             }
             catch (Exception exception)
@@ -49,6 +49,11 @@ namespace DAA
                 MessageBox.Show(exception.Message);
                 MessageBox.Show(exception.Data.Values.ToString());
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DwarAPI.getCategories();
         }
     }
 }
