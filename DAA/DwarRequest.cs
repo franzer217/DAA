@@ -51,5 +51,10 @@ namespace DAA
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         return(new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd());
     }
+
+    public static void testNLog()
+    {
+
+    }
   }
 }

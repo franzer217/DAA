@@ -12,7 +12,7 @@ namespace DAA
 {
     public static class DwarAPI
     {
-        static CookieContainer cookie;
+        public static CookieContainer cookie;
         public static string getMoney(HtmlNode node)
         {
             try
@@ -58,7 +58,7 @@ namespace DAA
         public static void login()
         {
             cookie = new CookieContainer();
-            DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=zadisa2006@mail.ru&passwd=ee34nf3o&x=59&y=17");
+            DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17");
         }
 
         public static void getCategories()
@@ -134,7 +134,7 @@ namespace DAA
         {
             try
             {
-                //MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlCommand command = new MySqlCommand();
@@ -181,7 +181,7 @@ namespace DAA
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-                //MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
             }
             catch (Exception exception)
             {
@@ -214,7 +214,7 @@ namespace DAA
                 {               
                     Thread myThread = new Thread(scanItems);
                     myThread.Start();
-                    Thread.Sleep(30000);
+                    Thread.Sleep(120000);
                 }         
             }
             catch (Exception exception)
