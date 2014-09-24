@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using MySql.Data.MySqlClient;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,13 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using workWithXmlByRusskijMir;
 
 namespace DAA
-{
+{ 
     public static class DwarAPI
     {
-        public static CookieContainer cookie;
+        public static CookieContainer cookie = new CookieContainer();
         public static string getMoney(HtmlNode node)
         {
             try
@@ -57,8 +59,9 @@ namespace DAA
 
         public static void login()
         {
-            cookie = new CookieContainer();
             DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17");
+            MessageBox.Show("Авторизация прошла успешно");
+            globals.dwarLog.Trace("Авторизация прошла успешно");
         }
 
         public static void getCategories()
@@ -90,9 +93,11 @@ namespace DAA
                 }
                 connection.Close();
                 MessageBox.Show("Категории получены");
+                globals.dwarLog.Trace("Категории получены");
             }
             catch (Exception exception)
             {
+                globals.dwarLog.Error(exception.ToString());
                 MessageBox.Show(exception.Message);
             }
         }
@@ -108,8 +113,6 @@ namespace DAA
                 {
                     localDateTime = DateTime.UtcNow.ToUniversalTime();
                     localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                    //Заменить 5 переменной из XML
-                    //buyedOut = "IF(" + localDateTimeStr + ">lotEndTime) THEN '2' ELSE IF(DATEADD(mi,5,lastUpdateTime)<" + localDateTimeStr + ") THEN '1' ELSE '0'";
                     lotExpiration = lotEndTime(item, localDateTime);
                     command.CommandText = command.CommandText + "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
                         + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
@@ -117,9 +120,9 @@ namespace DAA
                         + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
                         + (int)(lotExpiration - localDateTime).TotalSeconds + "','" + "1" + "'),";
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException exception)
                 {
-                    //Здесь будет сообщение для логгера
+                    globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
                 }
             }
         }
@@ -132,9 +135,10 @@ namespace DAA
         }
         public static void scanItems()
         {
+            globals.dwarLog.Trace("Сканирование началось");
             try
             {
-                MessageBox.Show("Сканирование начато: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 MySqlCommand command = new MySqlCommand();
@@ -176,17 +180,17 @@ namespace DAA
                 }
                 command2.CommandText = command2.CommandText.TrimEnd(',') + " ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = TIMESTAMPDIFF(SECOND,'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "',lotEndTime);";
                 command2.ExecuteNonQuery();
-                command2.CommandText = "UPDATE items SET buyedOut = IF ('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lotEndTime, INTERVAL 5 MINUTE),'2',IF('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lastUpdateTime, INTERVAL 5 MINUTE),'1','0')) WHERE subsists='1'; UPDATE items SET subsists = '0' WHERE DATE_ADD(lastUpdateTime, INTERVAL 5 MINUTE)<'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "';";
+                command2.CommandText = "UPDATE items SET buyedOut = IF ('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lotEndTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'2',IF('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'1','0')) WHERE subsists='1'; UPDATE items SET subsists = '0' WHERE DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE)<'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "';";
                 command2.ExecuteNonQuery();
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-                MessageBox.Show("Сканирование завершено: " + DateTime.UtcNow.ToUniversalTime().ToString());
+                globals.dwarLog.Trace("Сканирование завершено");
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
-                MessageBox.Show(exception.Data.Values.ToString());
+                globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+                MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId + "суровый");
             }
         }
 
@@ -214,13 +218,13 @@ namespace DAA
                 {               
                     Thread myThread = new Thread(scanItems);
                     myThread.Start();
-                    Thread.Sleep(120000);
+                    Thread.Sleep(globals.threadStartDuration);
                 }         
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
-                MessageBox.Show(exception.Data.Values.ToString());
+                globals.dwarLog.Error(exception.ToString());
+                MessageBox.Show(exception.ToString());
             }
         }
     }

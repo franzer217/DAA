@@ -18,7 +18,6 @@ namespace DAA
 {
     public partial class Form1 : Form
     {
-        CookieContainer cookie;
         public Form1()
         {      
             InitializeComponent();
@@ -32,7 +31,7 @@ namespace DAA
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.ToString());
             }
         
         }
@@ -46,14 +45,20 @@ namespace DAA
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
-                MessageBox.Show(exception.Data.Values.ToString());
+                MessageBox.Show(exception.ToString());
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DwarAPI.getCategories();
+            try
+            {
+                DwarAPI.getCategories();
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
     }
 }
