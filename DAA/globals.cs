@@ -14,5 +14,8 @@ namespace DAA
         public static Logger dwarLog = LogManager.GetCurrentClassLogger();
         public static int expectedAuctionScanningTime = Convert.ToInt32(XmlLib.getFromXml(xmlFilePath, "int", "expectedAuctionScanningTime"));
         public static int threadStartDuration = Convert.ToInt32(XmlLib.getFromXml(xmlFilePath, "int", "threadStartDuration"));
+        public static string gameWorld = XmlLib.getFromXml(xmlFilePath, "string", "gameWorld");
+        public static string email = XmlLib.getFromXml(xmlFilePath, "string", "email");
+        public static string password = XmlLib.getFromXml(xmlFilePath, "string", "password");
     }
 }

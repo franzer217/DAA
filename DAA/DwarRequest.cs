@@ -32,7 +32,8 @@ namespace DAA
         }
         catch(Exception exception)
         {
-            globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+            globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId + "\n"
+                + "Запрашиваемая страница: " + dwarUrl);
             MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
             return null;
         }

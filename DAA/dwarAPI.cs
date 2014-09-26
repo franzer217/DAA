@@ -59,7 +59,7 @@ namespace DAA
 
         public static void login()
         {
-            DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17");
+            DwarRequest.postRequest("http://" + globals.gameWorld + ".dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password + "&x=59&y=17");
             MessageBox.Show("Авторизация прошла успешно");
             globals.dwarLog.Trace("Авторизация прошла успешно");
         }
@@ -158,7 +158,7 @@ namespace DAA
 
                 while (reader.Read())
                 {
-                    html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=0", ref cookie);
+                    html = DwarRequest.getRequest("http://" + globals.gameWorld + ".dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=0", ref cookie);
                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
                     List<HtmlNode> items = getItemNodes(doc);
@@ -170,7 +170,7 @@ namespace DAA
 
                     for (int i = 1; i < number; i++)
                     {
-                        html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=" + i, ref cookie);
+                        html = DwarRequest.getRequest("http://" + globals.gameWorld +".dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=" + i, ref cookie);
                         doc = new HtmlAgilityPack.HtmlDocument();
                         doc.LoadHtml(html);
 

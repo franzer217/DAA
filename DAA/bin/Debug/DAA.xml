@@ -3,5 +3,8 @@
   <UsedData>
 	  <int name="expectedAuctionScanningTime" desc="Время в минутах, за которое, по нашему мнению, база будет просканирована">5</int>
     <int name="threadStartDuration" desc="Время в милисекундах после запуска первого потока, когда стартует второй">60000</int>
+		<string name="gameWorld" desc="Сервер">w1</string>
+		<string name="email" desc="Почта авторизации">ganton217@gmail.com</string>
+		<string name="password" desc="Пароль авторизации">ee34nf3o</string>
   </UsedData>
 </Root>
