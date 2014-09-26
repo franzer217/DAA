@@ -15,7 +15,7 @@ namespace DAA
     public static class DwarAPI
     {
         public static CookieContainer cookie = new CookieContainer();
-        public static string getMoney(HtmlNode node)
+        private static string getMoney(HtmlNode node)
         {
             try
             {
@@ -44,8 +44,7 @@ namespace DAA
                 return "";
             }
         }
-
-        public static int pageCount(HtmlAgilityPack.HtmlDocument doc)
+        private static int pageCount(HtmlAgilityPack.HtmlDocument doc)
         {
             try
             {
@@ -56,14 +55,21 @@ namespace DAA
                 return 0;
             }
         }
-
         public static void login()
         {
-            DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17");
-            MessageBox.Show("Авторизация прошла успешно");
-            globals.dwarLog.Trace("Авторизация прошла успешно");
+            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17")!="")
+            {
+                MessageBox.Show("Авторизация прошла успешно");
+                globals.dwarLog.Trace("--------------------------------------------------------------------------------");
+                globals.dwarLog.Trace("Авторизация прошла успешно");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка авторизации");
+                globals.dwarLog.Trace("--------------------------------------------------------------------------------");
+                globals.dwarLog.Trace("Ошибка авторизации");
+            }
         }
-
         public static void getCategories()
         {
             try
@@ -101,8 +107,7 @@ namespace DAA
                 MessageBox.Show(exception.Message);
             }
         }
-
-        public static void addItems(List<HtmlNode> nodes, MySqlCommand command)
+        private static void addItems(List<HtmlNode> nodes, MySqlCommand command)
         {
             DateTime localDateTime;
             DateTime lotExpiration;
@@ -111,22 +116,22 @@ namespace DAA
             {
                 try
                 {
-                    localDateTime = DateTime.UtcNow.ToUniversalTime();
-                    localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                    lotExpiration = lotEndTime(item, localDateTime);
-                    command.CommandText = command.CommandText + "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
-                        + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
-                        + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','"
-                        + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
-                        + (int)(lotExpiration - localDateTime).TotalSeconds + "','" + "1" + "'),";
+                localDateTime = DateTime.UtcNow.ToUniversalTime();
+                localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                lotExpiration = lotEndTime(item, localDateTime);
+                command.CommandText += "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
+                + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
+                + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','"
+                + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
+                + (int)(lotExpiration - localDateTime).TotalSeconds + "','" + "1" + "'),";
                 }
                 catch (NullReferenceException exception)
                 {
-                    globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+                   // globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
                 }
             }
         }
-        public static List<HtmlNode> getItemNodes(HtmlAgilityPack.HtmlDocument doc)
+        private static List<HtmlNode> getItemNodes(HtmlAgilityPack.HtmlDocument doc)
         {
             HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
             if (itemList != null)
@@ -135,7 +140,7 @@ namespace DAA
         }
         public static void scanItems()
         {
-            globals.dwarLog.Trace("Сканирование началось");
+            globals.dwarLog.Trace("Сканирование началось; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
             try
             {
                 
@@ -185,16 +190,15 @@ namespace DAA
                 connection.Close();
                 connection2.Close();
                 reader.Close();
-                globals.dwarLog.Trace("Сканирование завершено");
+                globals.dwarLog.Trace("Сканирование завершено; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
             }
             catch (Exception exception)
             {
                 globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
-                MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId + "суровый");
+                MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
             }
         }
-
-        public static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
+        private static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
         {
             string timeLeft = node.SelectSingleNode("td[3]").InnerText;
             switch(timeLeft)
@@ -209,7 +213,6 @@ namespace DAA
                     return DateTime.Now;
             }
         }
-
         public static void startNewThread()
         {
             try
@@ -225,6 +228,73 @@ namespace DAA
             {
                 globals.dwarLog.Error(exception.ToString());
                 MessageBox.Show(exception.ToString());
+            }
+        }
+        private static bool pageStatus(string URL)
+        {
+            string html = DwarRequest.getRequest(URL, ref cookie);
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+            HtmlNode page = doc.DocumentNode.SelectSingleNode("//html");
+            if (page != null)
+                return true;
+            else
+                return false;
+        }
+        public static void getAllItems()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
+                string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50));";
+                MySqlCommand command = new MySqlCommand(dbCommand, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+
+                int i = 1;
+                string html = "http://w1.dwar.ru/artifact_info.php?artikul_id=1";
+                HtmlAgilityPack.HtmlDocument loc = new HtmlAgilityPack.HtmlDocument();
+
+                command.CommandText = "REPLACE INTO allItens (itemID, itemName, itemPrice) VALUES";
+                while(pageStatus(html))
+                {
+                    html = "http://w1.dwar.ru/artifact_info.php?artikul_id=" + i + "";
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc.LoadHtml(html);
+
+                    command.CommandText += "('"+i+"'
+
+                    //command.Parameters.AddWithValue("@itemID", categories[i].GetAttributeValue("value", ""));
+                    //command.Parameters.AddWithValue("@itemName", HtmlAgilityPack.HtmlEntity.DeEntitize(categories[i].NextSibling.InnerText).Trim());
+                   // command.Parameters.AddWithValue("@itemPrice", categories[i].GetAttributeValue("value", ""));
+                    command.ExecuteNonQuery();
+                    i++;
+                }
+               // html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i + "", ref cookie);
+                
+
+                
+
+               /* for (var i = 0; i < categories.Count; i++)
+                {
+                    command.CommandText = "REPLACE INTO categories (browserValue, categoryName) VALUES(@browserValue,@categoryName)";
+                    command.Parameters.AddWithValue("@browserValue", categories[i].GetAttributeValue("value", ""));
+                    if (command.Parameters[0].Value.ToString().Length < 10 && command.Parameters[0].Value != "")
+                    {
+                        command.Parameters.AddWithValue("@categoryName", HtmlAgilityPack.HtmlEntity.DeEntitize(categories[i].NextSibling.InnerText).Trim());
+                        command.ExecuteNonQuery();
+                    }
+                    command.Parameters.Clear();
+                }*/
+                command.ExecuteNonQuery();
+                connection.Close();
+                MessageBox.Show("Предметы получены");
+                globals.dwarLog.Trace("Предметы получены");
+            }
+            catch (Exception exception)
+            {
+                globals.dwarLog.Error(exception.ToString());
+                MessageBox.Show(exception.Message);
             }
         }
     }

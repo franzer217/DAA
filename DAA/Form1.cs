@@ -60,5 +60,18 @@ namespace DAA
                 MessageBox.Show(exception.ToString());
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Thread myThread = new Thread(DwarAPI.getAllItems);
+                myThread.Start();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
     }
 }
