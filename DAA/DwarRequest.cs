@@ -18,46 +18,29 @@ namespace DAA
     /// <param name="cookie">Куки текущей сессии</param>
     /// <param name="dwarReferer">Параметр запроса Referer. Необязателен</param>
     /// <returns></returns>
-    public static string getRequest(string dwarUrl, ref CookieContainer cookie, string dwarReferer = "http://w1.dwar.ru/")
-    {
-        //try
-        //{
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(dwarUrl);
-            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/17.0";
-            request.AllowAutoRedirect = true;
-            request.CookieContainer = cookie;
-            request.Referer = dwarReferer;
-            HttpWebResponse response;
-            string streamReader;
-            do
-            {
-                response = (HttpWebResponse)request.GetResponse();
-                streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
-                request.GetResponse().Close();
-                response.GetResponseStream().Close();
-            }
-            while (response.StatusDescription != "OK");
-            return streamReader;
-        //}
-        //catch(Exception exception)
-        //{
-        //    globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + "ThreadID =  " + Thread.CurrentThread.ManagedThreadId);
-        //    globals.dwarLog.Error(dwarUrl);
-        //    //MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
-        //    HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(dwarUrl);
-        //    request2.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/17.0";
-        //    request2.AllowAutoRedirect = true;
-        //    request2.CookieContainer = cookie;
-        //    request2.Referer = dwarReferer;
-        //    HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
-        //    string streamReader = new StreamReader(response2.GetResponseStream(), Encoding.UTF8).ReadToEnd();
-        //    request2.GetResponse().Close();
-        //    response2.GetResponseStream().Close();
-        //    globals.dwarLog.Error("Вторая попытка");
-        //    return streamReader;
-        //    //return "";
-        //}
-    }
+      public static string getRequest(string dwarUrl, ref CookieContainer cookie, string dwarReferer = "http://w1.dwar.ru/")
+      {
+          try
+          {
+              HttpWebRequest request = (HttpWebRequest)WebRequest.Create(dwarUrl);
+              request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/17.0";
+              request.AllowAutoRedirect = true;
+              request.CookieContainer = cookie;
+              request.Referer = "http://w1.dwar.ru/";
+              HttpWebResponse response;
+              string streamReader;
+              response = (HttpWebResponse)request.GetResponse();
+              streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+              request.GetResponse().Close();
+              response.GetResponseStream().Close();
+              return streamReader;
+          }
+          catch (Exception exception)
+          {
+              globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+              return getRequest(dwarUrl, ref cookie);
+          }
+      }
 
     /// <summary>
     /// Выполняет get запрос по адресу dwarUrl, передавая туда cookie и данные, идущие как параметры запроса.

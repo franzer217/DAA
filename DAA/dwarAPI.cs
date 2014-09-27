@@ -343,10 +343,6 @@ namespace DAA
         }
         public static void getAllItems()
         {
-            //HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
-            //if (itemList != null)
-            //    return itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
-            //return null;
             int i = 1;
             try
             {
@@ -368,40 +364,23 @@ namespace DAA
                 string html;
 
                 command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice) VALUES";
-                while(i < Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber")))
+                int pageCount = Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber"));
+                while(i < pageCount)
                 {
                     html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i, ref cookie);
                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-
-                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && doc.DocumentNode.SelectSingleNode("//*[@title='Цена']") != null && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
+                    HtmlNode itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
+                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
                     {
-                        command.CommandText += "('" + i + "','" + doc.DocumentNode.SelectNodes("//h1")[1].InnerText + "','" + getItemPrice(doc.DocumentNode.SelectSingleNode("//*[@title='Цена']")) + "'),"; 
+                        string nameItem = doc.DocumentNode.SelectNodes("//h1")[1].InnerText;
+                        if(nameItem.Length<51)
+                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "'),"; 
                     }
-                    //command.Parameters.AddWithValue("@itemID", categories[i].GetAttributeValue("value", ""));
-                    //command.Parameters.AddWithValue("@itemName", HtmlAgilityPack.HtmlEntity.DeEntitize(categories[i].NextSibling.InnerText).Trim());
-                   // command.Parameters.AddWithValue("@itemPrice", categories[i].GetAttributeValue("value", ""));
-                    
+
                     i++;
                 }
-                command.CommandText = command.CommandText.TrimEnd(',');
-                command.ExecuteNonQuery();
-               // html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i + "", ref cookie);
-                
-
-                
-
-               /* for (var i = 0; i < categories.Count; i++)
-                {
-                    command.CommandText = "REPLACE INTO categories (browserValue, categoryName) VALUES(@browserValue,@categoryName)";
-                    command.Parameters.AddWithValue("@browserValue", categories[i].GetAttributeValue("value", ""));
-                    if (command.Parameters[0].Value.ToString().Length < 10 && command.Parameters[0].Value != "")
-                    {
-                        command.Parameters.AddWithValue("@categoryName", HtmlAgilityPack.HtmlEntity.DeEntitize(categories[i].NextSibling.InnerText).Trim());
-                        command.ExecuteNonQuery();
-                    }
-                    command.Parameters.Clear();
-                }*/
+                command.CommandText = command.CommandText.TrimEnd(',')+";";
                 command.ExecuteNonQuery();
                 connection.Close();
                 MessageBox.Show("Предметы получены");
