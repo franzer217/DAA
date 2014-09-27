@@ -3,5 +3,6 @@
   <UsedData>
 	  <int name="expectedAuctionScanningTime" desc="Время в минутах, за которое, по нашему мнению, база будет просканирована">5</int>
     <int name="threadStartDuration" desc="Время в милисекундах после запуска первого потока, когда стартует второй">60000</int>
-  </UsedData>
+    <int name="gameElementsNumber" desc="Количество предметов в дваре">100</int> 
+</UsedData>
 </Root>

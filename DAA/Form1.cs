@@ -55,7 +55,7 @@ namespace DAA
             {
                 DwarAPI.getCategories();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
             }

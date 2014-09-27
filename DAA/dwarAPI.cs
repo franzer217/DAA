@@ -44,6 +44,103 @@ namespace DAA
                 return "";
             }
         }
+
+        private static string getItemPrice(HtmlNode itemPriceNode)
+        {
+            HtmlNodeCollection spans = itemPriceNode.SelectNodes("span");
+            string price = itemPriceNode.InnerText.Replace("&nbsp;", " ").TrimStart();
+
+            string result = parsePriceRecursion(spans[0].Attributes["title"].Value, price);
+            return parsePrice(result);
+        } 
+
+        private static string parsePriceRecursion(string coinType, string price)
+        {
+            string result = " ";
+            switch (coinType)
+            {
+                case "Золотой":
+                    if(price.IndexOf(' ') != -1)
+                        result = price.Substring(0, price.IndexOf(' ')) + 'з';
+                    else
+                    {
+                        result = price.Substring(0, price.Length) + 'з';
+                        return result;
+                    } 
+                    price = price.Remove(0, result.Length);
+                    result += parsePriceRecursion("Серебряный", price);
+                    return result;
+
+                case "Серебряный":
+                    price = price.TrimStart();
+                    if(price.IndexOf(' ') != -1)
+                        result = price.Substring(0, price.IndexOf(' ')) + 'с';
+                    else
+                    {
+                        result = price.Substring(0, price.Length) + 'с';
+                        return result;
+                    } 
+                    price = price.Remove(0, result.Length);
+                    result += parsePriceRecursion("Медный", price);
+                    return result;
+
+                case "Медный":
+                    price = price.TrimStart();
+                    result = price.Substring(0, price.Length) + 'м';
+                    return result;
+
+                default:
+                    return "";
+
+            }
+        }
+
+        private static string parsePrice(string price)
+        {
+            string money = "";
+            string gold = "";
+            string silver = "";
+            string bronze = "";
+            if(price.IndexOf('з') != -1)
+            {
+                gold = price.Substring(0, price.IndexOf('з'));
+                price = price.Remove(0, gold.Length + 1);
+            }
+            if(price.IndexOf('с') != -1)
+            {
+                silver = price.Substring(0, price.IndexOf('с'));
+                price = price.Remove(0, silver.Length + 1);
+            } 
+            if(price.IndexOf('м') != -1)
+            {
+                bronze = price.Substring(0, price.IndexOf('м'));                
+            } 
+            if (gold != "")
+                money += gold;
+            if (silver != "")
+                if (silver.Length > 1)
+                    money += silver;
+                else
+                    if (gold == "")
+                        money += silver;
+                    else
+                        money += '0' + silver;
+            else
+                if(gold != "")
+                    money += "00";               
+            if (bronze != "")
+                if (bronze.Length > 1)
+                    money += bronze;
+                else
+                    if (gold == "" || silver == "")
+                        money += bronze;
+                    else             
+                        money += '0' + bronze;
+            else
+                money += "00";
+            return money;
+        }
+
         private static int pageCount(HtmlAgilityPack.HtmlDocument doc)
         {
             try
@@ -70,6 +167,7 @@ namespace DAA
                 globals.dwarLog.Trace("Ошибка авторизации");
             }
         }
+
         public static void getCategories()
         {
             try
@@ -131,6 +229,7 @@ namespace DAA
                 }
             }
         }
+
         private static List<HtmlNode> getItemNodes(HtmlAgilityPack.HtmlDocument doc)
         {
             HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
@@ -138,6 +237,7 @@ namespace DAA
                 return itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
             return null;
         }
+
         public static void scanItems()
         {
             globals.dwarLog.Trace("Сканирование началось; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
@@ -230,7 +330,7 @@ namespace DAA
                 MessageBox.Show(exception.ToString());
             }
         }
-        private static bool pageStatus(string URL)
+        public static bool pageStatus(string URL)
         {
             string html = DwarRequest.getRequest(URL, ref cookie);
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
@@ -243,6 +343,11 @@ namespace DAA
         }
         public static void getAllItems()
         {
+            //HtmlNode itemList = doc.DocumentNode.SelectSingleNode(".//table[@id='item_list']");
+            //if (itemList != null)
+            //    return itemList.Descendants("tr").Where(d => d.Attributes.Contains("class") && (d.Attributes["class"].Value.Contains("brd2-top"))).ToList<HtmlNode>();
+            //return null;
+            int i = 1;
             try
             {
                 MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
@@ -251,25 +356,36 @@ namespace DAA
                 connection.Open();
                 command.ExecuteNonQuery();
 
-                int i = 1;
-                string html = "http://w1.dwar.ru/artifact_info.php?artikul_id=1";
-                HtmlAgilityPack.HtmlDocument loc = new HtmlAgilityPack.HtmlDocument();
-
-                command.CommandText = "REPLACE INTO allItens (itemID, itemName, itemPrice) VALUES";
-                while(pageStatus(html))
+                List<string> categories = new List<string>();
+                command.CommandText = "SELECT categoryName FROM categories";
+                MySqlDataReader reader = command.ExecuteReader();
+                while(reader.Read())
                 {
-                    html = "http://w1.dwar.ru/artifact_info.php?artikul_id=" + i + "";
+                    categories.Add(reader[0].ToString());
+                }
+                reader.Close();
+
+                string html;
+
+                command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice) VALUES";
+                while(i < Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber")))
+                {
+                    html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i, ref cookie);
                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
 
-                    command.CommandText += "('"+i+"'
-
+                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && doc.DocumentNode.SelectSingleNode("//*[@title='Цена']") != null && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
+                    {
+                        command.CommandText += "('" + i + "','" + doc.DocumentNode.SelectNodes("//h1")[1].InnerText + "','" + getItemPrice(doc.DocumentNode.SelectSingleNode("//*[@title='Цена']")) + "'),"; 
+                    }
                     //command.Parameters.AddWithValue("@itemID", categories[i].GetAttributeValue("value", ""));
                     //command.Parameters.AddWithValue("@itemName", HtmlAgilityPack.HtmlEntity.DeEntitize(categories[i].NextSibling.InnerText).Trim());
                    // command.Parameters.AddWithValue("@itemPrice", categories[i].GetAttributeValue("value", ""));
-                    command.ExecuteNonQuery();
+                    
                     i++;
                 }
+                command.CommandText = command.CommandText.TrimEnd(',');
+                command.ExecuteNonQuery();
                // html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i + "", ref cookie);
                 
 
@@ -293,7 +409,7 @@ namespace DAA
             }
             catch (Exception exception)
             {
-                globals.dwarLog.Error(exception.ToString());
+                globals.dwarLog.Error(exception.ToString() + "i=" + i);
                 MessageBox.Show(exception.Message);
             }
         }
