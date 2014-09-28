@@ -154,6 +154,7 @@ namespace DAA
         }
         public static void login()
         {
+<<<<<<< HEAD
             if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17")!="")
             {
                 MessageBox.Show("Авторизация прошла успешно");
@@ -166,6 +167,11 @@ namespace DAA
                 globals.dwarLog.Trace("--------------------------------------------------------------------------------");
                 globals.dwarLog.Trace("Ошибка авторизации");
             }
+=======
+            DwarRequest.postRequest("http://" + globals.gameWorld + ".dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password + "&x=59&y=17");
+            MessageBox.Show("Авторизация прошла успешно");
+            globals.dwarLog.Trace("Авторизация прошла успешно");
+>>>>>>> Игорь
         }
 
         public static void getCategories()
@@ -313,7 +319,6 @@ namespace DAA
                     return DateTime.Now;
             }
         }
-
         public static void startNewThread()
         {
             try
