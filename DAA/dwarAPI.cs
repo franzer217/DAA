@@ -154,7 +154,7 @@ namespace DAA
         }
         public static void login()
         {
-            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17")!="")
+            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password)!="")
             {
                 MessageBox.Show("Авторизация прошла успешно");
                 globals.dwarLog.Trace("--------------------------------------------------------------------------------");
@@ -170,6 +170,7 @@ namespace DAA
 
         public static void getCategories()
         {
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
             try
             {
                 string html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
@@ -177,8 +178,6 @@ namespace DAA
                 doc.LoadHtml(html);
                 HtmlNode filter = doc.DocumentNode.SelectSingleNode("//select[@name='_filter[kind]']");
                 HtmlNodeCollection categories = filter.SelectNodes(".//option");
-
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
@@ -195,7 +194,6 @@ namespace DAA
                     }
                     command.Parameters.Clear();
                 }
-                connection.Close();
                 MessageBox.Show("Категории получены");
                 globals.dwarLog.Trace("Категории получены");
             }
@@ -203,6 +201,11 @@ namespace DAA
             {
                 globals.dwarLog.Error(exception.ToString());
                 MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
             }
         }
         private static void addItems(List<HtmlNode> nodes, MySqlCommand command)
@@ -241,11 +244,11 @@ namespace DAA
         public static void scanItems()
         {
             globals.dwarLog.Trace("Сканирование началось; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            MySqlConnection connection2 = new MySqlConnection(globals.connectionString);
+            MySqlDataReader reader = null;
             try
-            {
-                
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
-                MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
+            {                                               
                 MySqlCommand command = new MySqlCommand();
                 MySqlCommand command2 = new MySqlCommand();
 
@@ -258,7 +261,7 @@ namespace DAA
                 command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 command2.CommandText = "INSERT INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, lastUpdateTime, secondsLeft, subsists) VALUES";
 
                 while (reader.Read())
@@ -283,19 +286,28 @@ namespace DAA
                         addItems(items, command2);
                     }
                 }
+                connection.Close();
+                reader.Close();
                 command2.CommandText = command2.CommandText.TrimEnd(',') + " ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = TIMESTAMPDIFF(SECOND,'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "',lotEndTime);";
                 command2.ExecuteNonQuery();
                 command2.CommandText = "UPDATE items SET buyedOut = IF ('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lotEndTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'2',IF('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'1','0')) WHERE subsists='1'; UPDATE items SET subsists = '0' WHERE DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE)<'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "';";
-                command2.ExecuteNonQuery();
-                connection.Close();
-                connection2.Close();
-                reader.Close();
+                command2.ExecuteNonQuery();     
                 globals.dwarLog.Trace("Сканирование завершено; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
             }
             catch (Exception exception)
             {
                 globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
                 MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+                if (connection2.State != System.Data.ConnectionState.Closed)
+                    connection2.Close();
+                if (reader.IsClosed == false)
+                    reader.Close();
+
             }
         }
         private static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
@@ -345,9 +357,10 @@ namespace DAA
         public static void getAllItems()
         {
             int i = 1;
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            MySqlDataReader reader = null;
             try
             {
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
                 string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50));";
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
@@ -355,12 +368,11 @@ namespace DAA
 
                 List<string> categories = new List<string>();
                 command.CommandText = "SELECT categoryName FROM categories";
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while(reader.Read())
                 {
                     categories.Add(reader[0].ToString());
                 }
-                reader.Close();
 
                 string html;
 
@@ -383,7 +395,6 @@ namespace DAA
                 }
                 command.CommandText = command.CommandText.TrimEnd(',')+";";
                 command.ExecuteNonQuery();
-                connection.Close();
                 MessageBox.Show("Предметы получены");
                 globals.dwarLog.Trace("Предметы получены");
             }
@@ -391,6 +402,13 @@ namespace DAA
             {
                 globals.dwarLog.Error(exception.ToString() + "i=" + i);
                 MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+                if (reader.IsClosed == false)
+                    reader.Close();
             }
         }
     }
