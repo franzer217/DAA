@@ -26,7 +26,6 @@ namespace DAA
               request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/17.0";
               request.AllowAutoRedirect = true;
               request.CookieContainer = cookie;
-              request.Referer = "http://w1.dwar.ru/";
               HttpWebResponse response;
               string streamReader;
               response = (HttpWebResponse)request.GetResponse();
@@ -50,7 +49,7 @@ namespace DAA
     /// <param name="dataToPost">Отправляемые параметры запроса</param>
     /// <param name="dwarReferer">Параметр запроса Referer. Необязателен</param>
     /// <returns></returns>
-    public static string postRequest(string dwarUrl, ref CookieContainer cookie, string dataToPost, string dwarReferer = "http://w1.dwar.ru/")
+    public static string postRequest(string dwarUrl, ref CookieContainer cookie, string dataToPost)
     {
         try
         {
@@ -58,7 +57,6 @@ namespace DAA
             request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/17.0";
             request.Method = "POST";
             request.AllowAutoRedirect = true;
-            request.Referer = dwarReferer;
             request.CookieContainer = cookie;
             request.ContentType = "application/x-www-form-urlencoded";
             byte[] EncodedPostParams = Encoding.ASCII.GetBytes(dataToPost);

@@ -171,14 +171,14 @@ namespace DAA
         public static void getCategories()
         {
             MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
             try
             {
                 string html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(html);
                 HtmlNode filter = doc.DocumentNode.SelectSingleNode("//select[@name='_filter[kind]']");
-                HtmlNodeCollection categories = filter.SelectNodes(".//option");
-                string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
+                HtmlNodeCollection categories = filter.SelectNodes(".//option");                
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -221,7 +221,7 @@ namespace DAA
                 localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 lotExpiration = lotEndTime(item, localDateTime);
                 command.CommandText += "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
-                + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
+                + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText.Remove(0, item.SelectSingleNode("td[2]/span[2]").InnerText.IndexOf('/') + 1) + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
                 + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','"
                 + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
                 + (int)(lotExpiration - localDateTime).TotalSeconds + "','" + "1" + "'),";
@@ -258,7 +258,7 @@ namespace DAA
                 connection2.Open();
                 command.Connection = connection;
                 command2.Connection = connection2;
-                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
+                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength INT(3), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
                 reader = command.ExecuteReader();
@@ -305,7 +305,7 @@ namespace DAA
                     connection.Close();
                 if (connection2.State != System.Data.ConnectionState.Closed)
                     connection2.Close();
-                if (reader.IsClosed == false)
+                if (reader != null && reader.IsClosed == false)
                     reader.Close();
 
             }
@@ -361,7 +361,7 @@ namespace DAA
             MySqlDataReader reader = null;
             try
             {
-                string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50));";
+                string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50), itemBaseStrength INT(3));";
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -376,23 +376,38 @@ namespace DAA
 
                 string html;
 
-                command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice) VALUES";
+                command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice, itemBaseStrength) VALUES";
                 int pageCount = Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber"));
+                HtmlAgilityPack.HtmlDocument doc = null;
+                HtmlNode itemPriceNode = null;               
+                HtmlNode itemStrengthNode = null;
                 while(i < pageCount)
                 {
                     html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i, ref cookie);
-                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    HtmlNode itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
+                    itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
+                    itemStrengthNode = doc.DocumentNode.SelectSingleNode("//*[@title='Прочность предмета']");
+
                     if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
                     {
                         string nameItem = doc.DocumentNode.SelectNodes("//h1")[1].InnerText;
                         if(nameItem.Length<51)
-                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "'),"; 
+                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "',"; 
+                        if(itemStrengthNode != null)
+                        {
+                            command.CommandText += "'" + itemStrengthNode.InnerText.Remove(0, itemStrengthNode.InnerText.IndexOf('/') + 1) + "'";
+                        }
+                        else
+                        {
+                            command.CommandText += "NULL";
+                        }
+                        command.CommandText += "),";
                     }
 
                     i++;
                 }
+                reader.Close();
                 command.CommandText = command.CommandText.TrimEnd(',')+";";
                 command.ExecuteNonQuery();
                 MessageBox.Show("Предметы получены");
@@ -407,7 +422,7 @@ namespace DAA
             {
                 if (connection.State != System.Data.ConnectionState.Closed)
                     connection.Close();
-                if (reader.IsClosed == false)
+                if (reader != null && reader.IsClosed == false)
                     reader.Close();
             }
         }

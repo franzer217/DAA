@@ -17,6 +17,6 @@ namespace DAA
         public static string gameWorld = XmlLib.getFromXml(xmlFilePath, "string", "gameWorld");
         public static string email = XmlLib.getFromXml(xmlFilePath, "string", "email");
         public static string password = XmlLib.getFromXml(xmlFilePath, "string", "password");
-        public static string connectionString = @"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8";
+        public static string connectionString = @"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8;pooling=false";
     }
 }
