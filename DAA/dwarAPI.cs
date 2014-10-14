@@ -263,11 +263,11 @@ namespace DAA
                 command.CommandText = "SELECT browserValue FROM categories";
                 reader = command.ExecuteReader();
                 command2.CommandText = "INSERT INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, lastUpdateTime, secondsLeft, subsists) VALUES";
-
+                HtmlAgilityPack.HtmlDocument doc;
                 while (reader.Read())
                 {
                     html = DwarRequest.getRequest("http://" + globals.gameWorld + ".dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=0", ref cookie);
-                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
                     List<HtmlNode> items = getItemNodes(doc);
                     if (items == null)
@@ -388,21 +388,23 @@ namespace DAA
                     doc.LoadHtml(html);
                     itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
                     itemStrengthNode = doc.DocumentNode.SelectSingleNode("//*[@title='Прочность предмета']");
-
-                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
+ 
+                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd") && d.InnerText == "Предмет нельзя передать") != null)
                     {
                         string nameItem = doc.DocumentNode.SelectNodes("//h1")[1].InnerText;
                         if(nameItem.Length<51)
-                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "',"; 
-                        if(itemStrengthNode != null)
                         {
-                            command.CommandText += "'" + itemStrengthNode.InnerText.Remove(0, itemStrengthNode.InnerText.IndexOf('/') + 1) + "'";
-                        }
-                        else
-                        {
-                            command.CommandText += "NULL";
-                        }
-                        command.CommandText += "),";
+                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "',";
+                            if (itemStrengthNode != null)
+                            {
+                                command.CommandText += "'" + itemStrengthNode.InnerText.Remove(0, itemStrengthNode.InnerText.IndexOf('/') + 1) + "'";
+                            }
+                            else
+                            {
+                                command.CommandText += "NULL";
+                            }
+                            command.CommandText += "),";
+                        }      
                     }
 
                     i++;
