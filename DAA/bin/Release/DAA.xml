@@ -5,7 +5,7 @@
 	<int name="threadStartDuration" desc="Время в милисекундах после запуска первого потока, когда стартует второй">60000</int>
 	<int name="gameElementsNumber" desc="Количество предметов в дваре">25000</int> 
 	<string name="gameWorld" desc="Сервер">w1</string>
-	<string name="email" desc="Почта авторизации">ganton217@gmail.com</string>
+	<string name="email" desc="Почта авторизации">igorbardin217@gmail.com</string>
 	<string name="password" desc="Пароль авторизации">ee34nf3o</string>
   </UsedData>
 </Root>
