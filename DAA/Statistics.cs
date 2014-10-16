@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace DAA
 {
     class Statistics
-    {
+    { 
         public static void createStatisticsTable()
         {
             MySqlConnection connection = new MySqlConnection(globals.connectionString);
@@ -97,6 +97,7 @@ namespace DAA
                 statCommand.CommandText = commandText.TrimEnd(',') + ";";
                 statCommand.ExecuteNonQuery();
                 MessageBox.Show("Статистика добавлена");
+                onStatisticsCollectionFinish();
             }
             catch (Exception exception)
             {
@@ -119,5 +120,8 @@ namespace DAA
                     connection2.Close();                
             }
         }
+
+        public delegate void MethodContainer();
+        public static event MethodContainer onStatisticsCollectionFinish;
     }
 }

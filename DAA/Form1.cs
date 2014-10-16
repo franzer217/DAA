@@ -20,7 +20,7 @@ namespace DAA
     {
         public Form1()
         {      
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -40,10 +40,10 @@ namespace DAA
         {
             try
             {
+                Statistics.onStatisticsCollectionFinish += startStatisticsThread;
                 Thread myThread = new Thread(DwarAPI.startNewThread);
                 myThread.Start();
-                Thread statisticsThread = new Thread(Statistics.collectStatistics);
-                statisticsThread.Start();
+                startStatisticsThread();
             }
             catch (Exception exception)
             {
@@ -74,6 +74,12 @@ namespace DAA
             {
                 MessageBox.Show(exception.ToString());
             }
+        }
+
+        private static void startStatisticsThread()
+        {
+            Thread statisticsThread = new Thread(Statistics.collectStatistics);
+            statisticsThread.Start();
         }
     }
 }
