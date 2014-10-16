@@ -154,8 +154,7 @@ namespace DAA
         }
         public static void login()
         {
-<<<<<<< HEAD
-            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=igorbardin217@gmail.com&passwd=ee34nf3o&x=59&y=17")!="")
+            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password)!="")
             {
                 MessageBox.Show("Авторизация прошла успешно");
                 globals.dwarLog.Trace("--------------------------------------------------------------------------------");
@@ -167,25 +166,19 @@ namespace DAA
                 globals.dwarLog.Trace("--------------------------------------------------------------------------------");
                 globals.dwarLog.Trace("Ошибка авторизации");
             }
-=======
-            DwarRequest.postRequest("http://" + globals.gameWorld + ".dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password + "&x=59&y=17");
-            MessageBox.Show("Авторизация прошла успешно");
-            globals.dwarLog.Trace("Авторизация прошла успешно");
->>>>>>> Игорь
         }
 
         public static void getCategories()
         {
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
             try
             {
                 string html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(html);
                 HtmlNode filter = doc.DocumentNode.SelectSingleNode("//select[@name='_filter[kind]']");
-                HtmlNodeCollection categories = filter.SelectNodes(".//option");
-
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
-                string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
+                HtmlNodeCollection categories = filter.SelectNodes(".//option");                
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -201,7 +194,6 @@ namespace DAA
                     }
                     command.Parameters.Clear();
                 }
-                connection.Close();
                 MessageBox.Show("Категории получены");
                 globals.dwarLog.Trace("Категории получены");
             }
@@ -209,6 +201,11 @@ namespace DAA
             {
                 globals.dwarLog.Error(exception.ToString());
                 MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
             }
         }
         private static void addItems(List<HtmlNode> nodes, MySqlCommand command)
@@ -224,7 +221,7 @@ namespace DAA
                 localDateTimeStr = localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 lotExpiration = lotEndTime(item, localDateTime);
                 command.CommandText += "('" + Convert.ToInt64(item.SelectSingleNode("td[7]/descendant::input[2]").GetAttributeValue("aid", "")) + "','" + item.SelectSingleNode("td[2]/a").InnerText + "','"
-                + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
+                + item.SelectSingleNode("td[2]/span[1]").InnerText.TrimStart() + "','" + item.SelectSingleNode("td[2]/span[2]").InnerText.Remove(0, item.SelectSingleNode("td[2]/span[2]").InnerText.IndexOf('/') + 1) + "','" + item.SelectSingleNode("td[5]").InnerText + "','"
                 + DwarAPI.getMoney(item.SelectSingleNode("td[6]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[7]")) + "','" + DwarAPI.getMoney(item.SelectSingleNode("td[8]")) + "','"
                 + localDateTimeStr + "','" + lotExpiration.ToString("yyyy-MM-dd HH:mm:ss") + "','" + localDateTimeStr + "','"
                 + (int)(lotExpiration - localDateTime).TotalSeconds + "','" + "1" + "'),";
@@ -247,11 +244,11 @@ namespace DAA
         public static void scanItems()
         {
             globals.dwarLog.Trace("Сканирование началось; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            MySqlConnection connection2 = new MySqlConnection(globals.connectionString);
+            MySqlDataReader reader = null;
             try
-            {
-                
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
-                MySqlConnection connection2 = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
+            {                                               
                 MySqlCommand command = new MySqlCommand();
                 MySqlCommand command2 = new MySqlCommand();
 
@@ -261,16 +258,16 @@ namespace DAA
                 connection2.Open();
                 command.Connection = connection;
                 command2.Connection = connection2;
-                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength NVARCHAR(10), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
+                command2.CommandText = "CREATE TABLE IF NOT EXISTS items (lotID BIGINT PRIMARY KEY, itemName NVARCHAR(50), itemCategory NVARCHAR(50), itemStrength INT(3), itemCount NVARCHAR(10), pricePerPiece NVARCHAR(50), itemBid NVARCHAR(50), itemBuyOut NVARCHAR(50), detectionTime DATETIME, lotEndTime DATETIME, lastUpdateTime DATETIME, secondsLeft INT, buyedOut TINYINT, subsists TINYINT);";
                 command2.ExecuteNonQuery();
                 command.CommandText = "SELECT browserValue FROM categories";
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 command2.CommandText = "INSERT INTO items (lotID, itemName, itemCategory, itemStrength, itemCount, pricePerPiece, itemBid, itemBuyOut, detectionTime, lotEndTime, lastUpdateTime, secondsLeft, subsists) VALUES";
-
+                HtmlAgilityPack.HtmlDocument doc;
                 while (reader.Read())
                 {
                     html = DwarRequest.getRequest("http://" + globals.gameWorld + ".dwar.ru/area_auction.php?&_filter%5Btitle%5D=&_filter%5Bcount_min%5D=&_filter%5Bcount_max%5D=&_filter%5Blevel_min%5D=&_filter%5Blevel_max%5D=&_filter%5Bkind%5D=" + reader[0] + "&_filter%5Bquality%5D=-1&_filterapply=%D0%9E%D0%BA&page=0", ref cookie);
-                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
                     List<HtmlNode> items = getItemNodes(doc);
                     if (items == null)
@@ -289,19 +286,28 @@ namespace DAA
                         addItems(items, command2);
                     }
                 }
+                connection.Close();
+                reader.Close();
                 command2.CommandText = command2.CommandText.TrimEnd(',') + " ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastUpdateTime), secondsLeft = TIMESTAMPDIFF(SECOND,'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "',lotEndTime);";
                 command2.ExecuteNonQuery();
                 command2.CommandText = "UPDATE items SET buyedOut = IF ('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lotEndTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'2',IF('" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "'>DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE),'1','0')) WHERE subsists='1'; UPDATE items SET subsists = '0' WHERE DATE_ADD(lastUpdateTime, INTERVAL " + globals.expectedAuctionScanningTime + " MINUTE)<'" + DateTime.UtcNow.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "';";
-                command2.ExecuteNonQuery();
-                connection.Close();
-                connection2.Close();
-                reader.Close();
+                command2.ExecuteNonQuery();     
                 globals.dwarLog.Trace("Сканирование завершено; " + "ThreadID = " + Thread.CurrentThread.ManagedThreadId);
             }
             catch (Exception exception)
             {
                 globals.dwarLog.Error(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
                 MessageBox.Show(exception.Message + " " + exception.StackTrace + " " + Thread.CurrentThread.ManagedThreadId);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+                if (connection2.State != System.Data.ConnectionState.Closed)
+                    connection2.Close();
+                if (reader != null && reader.IsClosed == false)
+                    reader.Close();
+
             }
         }
         private static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
@@ -319,6 +325,7 @@ namespace DAA
                     return DateTime.Now;
             }
         }
+
         public static void startNewThread()
         {
             try
@@ -350,45 +357,65 @@ namespace DAA
         public static void getAllItems()
         {
             int i = 1;
+            MySqlConnection connection = new MySqlConnection(globals.connectionString);
+            MySqlDataReader reader = null;
             try
             {
-                MySqlConnection connection = new MySqlConnection(@"server=localhost;userid=root;password=1547;Database=fordwar;charset=utf8");
-                string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50));";
+                string dbCommand = "CREATE TABLE IF NOT EXISTS allItems (itemID INT PRIMARY KEY, itemName NVARCHAR(50), itemPrice NVARCHAR(50), itemBaseStrength INT(3));";
                 MySqlCommand command = new MySqlCommand(dbCommand, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
 
                 List<string> categories = new List<string>();
                 command.CommandText = "SELECT categoryName FROM categories";
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while(reader.Read())
                 {
                     categories.Add(reader[0].ToString());
                 }
-                reader.Close();
 
                 string html;
 
-                command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice) VALUES";
+                command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice, itemBaseStrength) VALUES";
                 int pageCount = Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber"));
+                HtmlAgilityPack.HtmlDocument doc = null;
+                HtmlNode itemPriceNode = null;               
+                HtmlNode itemStrengthNode = null;
                 while(i < pageCount)
                 {
                     html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i, ref cookie);
-                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    HtmlNode itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
-                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd")) != null)
+                    itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
+                    itemStrengthNode = doc.DocumentNode.SelectSingleNode("//*[@title='Прочность предмета']");
+<<<<<<< Updated upstream
+ 
+=======
+
+>>>>>>> Stashed changes
+                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd") && d.InnerText == "Предмет нельзя передать") != null)
                     {
                         string nameItem = doc.DocumentNode.SelectNodes("//h1")[1].InnerText;
                         if(nameItem.Length<51)
-                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "'),"; 
+                        {
+                            command.CommandText += "('" + i + "','" + MySqlHelper.EscapeString(nameItem) + "','" + getItemPrice(itemPriceNode) + "',";
+                            if (itemStrengthNode != null)
+                            {
+                                command.CommandText += "'" + itemStrengthNode.InnerText.Remove(0, itemStrengthNode.InnerText.IndexOf('/') + 1) + "'";
+                            }
+                            else
+                            {
+                                command.CommandText += "NULL";
+                            }
+                            command.CommandText += "),";
+                        }      
                     }
 
                     i++;
                 }
+                reader.Close();
                 command.CommandText = command.CommandText.TrimEnd(',')+";";
                 command.ExecuteNonQuery();
-                connection.Close();
                 MessageBox.Show("Предметы получены");
                 globals.dwarLog.Trace("Предметы получены");
             }
@@ -396,6 +423,13 @@ namespace DAA
             {
                 globals.dwarLog.Error(exception.ToString() + "i=" + i);
                 MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                    connection.Close();
+                if (reader != null && reader.IsClosed == false)
+                    reader.Close();
             }
         }
     }

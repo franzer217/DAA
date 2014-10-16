@@ -42,6 +42,8 @@ namespace DAA
             {
                 Thread myThread = new Thread(DwarAPI.startNewThread);
                 myThread.Start();
+                Thread statisticsThread = new Thread(Statistics.collectStatistics);
+                statisticsThread.Start();
             }
             catch (Exception exception)
             {
@@ -52,7 +54,7 @@ namespace DAA
         private void button2_Click(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 DwarAPI.getCategories();
             }
             catch (Exception exception)
