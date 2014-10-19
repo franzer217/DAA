@@ -46,6 +46,7 @@ namespace DAA
             Int32 temp = 0;
             int averagePrice = 0;
             int count = 0;
+            int i = 0;
             createStatisticsTable();
             string commandText = "REPLACE INTO statistics (itemName, minPrice, maxPrice, averagePrice, itemCount) VALUES";
             try
@@ -63,8 +64,8 @@ namespace DAA
                 itemReader = itemCommand.ExecuteReader();
                 while (itemReader.Read())
                 {
-
-                    getPriceCommand.CommandText = "SELECT pricePerPiece FROM items WHERE itemName = '" + MySqlHelper.EscapeString(itemReader[0].ToString()) + "' AND buyedOut = '1' AND pricePerPiece <> '' AND TO_DAYS(NOW()) - TO_DAYS(detectionTime) <= 30";                   
+                    i++;
+                    getPriceCommand.CommandText = "SELECT pricePerPiece FROM items WHERE itemName = '" + MySqlHelper.EscapeString(itemReader[0].ToString()) + "' AND buyedOut = '1' AND pricePerPiece <> '' AND TO_DAYS(NOW()) - TO_DAYS(detectionTime) <= " + globals.statisticsProcessingPeriod;                   
                     priceReader = getPriceCommand.ExecuteReader();
                     while (priceReader.Read())
                     {
@@ -96,12 +97,12 @@ namespace DAA
                 itemReader.Close();
                 statCommand.CommandText = commandText.TrimEnd(',') + ";";
                 statCommand.ExecuteNonQuery();
-                MessageBox.Show("Статистика добавлена");
+                globals.dwarLog.Trace("Статистика добавлена");
                 onStatisticsCollectionFinish();
             }
             catch (Exception exception)
             {
-                globals.dwarLog.Error(exception.ToString() + " count=" + count);
+                globals.dwarLog.Error(exception.ToString() + " count=" + count + " Содержание itemReader = " + itemReader[0] + " i = " + i);
                 MessageBox.Show(exception.Message);
             }
             finally

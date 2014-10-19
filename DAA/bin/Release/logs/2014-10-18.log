@@ -1,0 +1,205 @@
+10/18/2014 13:38:15 Trace --------------------------------------------------------------------------------
+10/18/2014 13:38:15 Trace Авторизация прошла успешно
+10/18/2014 13:38:18 Trace Сканирование началось; ThreadID = 13
+10/18/2014 13:40:18 Trace Сканирование началось; ThreadID = 16
+10/18/2014 13:42:18 Trace Сканирование началось; ThreadID = 12
+10/18/2014 13:43:54 Trace --------------------------------------------------------------------------------
+10/18/2014 13:43:54 Trace Авторизация прошла успешно
+10/18/2014 19:49:04 Trace Предметы получены
+10/18/2014 19:49:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 19:49:22 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 9
+10/18/2014 19:51:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 19:51:27 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 9
+10/18/2014 19:53:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 19:53:23 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 9
+10/18/2014 19:54:03 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/18/2014 19:55:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 19:55:15 Trace --------------------------------------------------------------------------------
+10/18/2014 19:55:15 Trace Авторизация прошла успешно
+10/18/2014 19:57:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 19:59:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:00:01 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:01:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:02:35 Trace Сканирование завершено; ThreadID = 9
+10/18/2014 20:03:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 20:04:17 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:05:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:05:51 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:07:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:07:49 Trace Сканирование завершено; ThreadID = 9
+10/18/2014 20:09:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 20:09:39 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:11:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:11:45 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:13:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:13:47 Trace Сканирование завершено; ThreadID = 9
+10/18/2014 20:15:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 20:15:43 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:17:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:17:41 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:19:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:19:27 Trace Сканирование завершено; ThreadID = 9
+10/18/2014 20:21:10 Trace Сканирование началось; ThreadID = 9
+10/18/2014 20:21:25 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:23:10 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:23:26 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:25:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:25:23 Trace Сканирование завершено; ThreadID = 9
+10/18/2014 20:27:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:27:30 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:29:10 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:29:31 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:31:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:31:30 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:33:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:33:37 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:35:10 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:35:48 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:37:10 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:37:41 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:39:10 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:39:50 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:41:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:41:46 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:43:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:43:46 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:45:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:45:53 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:47:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:47:53 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:49:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:49:42 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:51:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:51:53 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:53:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:53:49 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 20:55:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 20:55:43 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 20:57:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 20:57:49 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 20:59:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 20:59:44 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:01:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:02:00 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:03:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:04:11 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:05:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:06:19 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:07:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:08:12 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:09:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:10:32 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:11:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:12:38 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:13:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:14:23 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:15:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:16:06 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:17:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:17:58 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:19:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:19:43 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:21:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:21:48 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:23:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:24:15 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:25:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:26:19 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:27:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:28:17 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:29:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:30:13 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:31:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:32:02 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:33:11 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:33:57 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:35:11 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:36:23 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:37:11 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:38:22 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:39:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:40:35 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:41:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:42:22 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:43:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:44:16 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:45:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:46:19 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:47:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:48:06 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:49:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:50:03 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:51:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:52:09 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:53:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 21:54:15 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 21:55:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 21:56:19 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 21:57:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 21:58:26 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 21:59:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 22:00:35 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 22:01:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 22:02:32 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 22:03:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 22:04:16 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 22:05:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 22:06:05 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 22:07:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 22:08:10 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 22:09:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 22:10:10 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 22:11:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 22:12:06 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 22:13:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 22:14:02 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 22:15:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 22:16:11 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 22:17:12 Trace Сканирование началось; ThreadID = 10
+10/18/2014 22:18:15 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 22:19:12 Trace Сканирование началось; ThreadID = 11
+10/18/2014 22:20:26 Trace Сканирование завершено; ThreadID = 8
+10/18/2014 22:21:12 Trace Сканирование началось; ThreadID = 8
+10/18/2014 22:22:22 Trace Сканирование завершено; ThreadID = 10
+10/18/2014 22:23:13 Trace Сканирование началось; ThreadID = 10
+10/18/2014 22:24:27 Trace Сканирование завершено; ThreadID = 11
+10/18/2014 22:25:13 Trace Сканирование началось; ThreadID = 11

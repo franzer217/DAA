@@ -1,0 +1,54 @@
+10/15/2014 10:04:24 Trace Сканирование началось; ThreadID = 5
+10/15/2014 10:04:25 Error System.InvalidOperationException: Connection must be valid and open.
+   в MySql.Data.MySqlClient.MySqlCommand.CheckState()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 55 count=0
+10/15/2014 10:04:49 Trace --------------------------------------------------------------------------------
+10/15/2014 10:04:49 Trace Авторизация прошла успешно
+10/15/2014 10:04:50 Trace Сканирование началось; ThreadID = 6
+10/15/2014 10:04:51 Error System.InvalidOperationException: Connection must be valid and open.
+   в MySql.Data.MySqlClient.MySqlCommand.CheckState()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 55 count=0
+10/15/2014 10:05:30 Trace --------------------------------------------------------------------------------
+10/15/2014 10:05:30 Trace Авторизация прошла успешно
+10/15/2014 10:05:31 Trace Сканирование началось; ThreadID = 13
+10/15/2014 10:10:31 Trace --------------------------------------------------------------------------------
+10/15/2014 10:10:31 Trace Авторизация прошла успешно
+10/15/2014 10:10:33 Trace Сканирование началось; ThreadID = 5
+10/15/2014 10:10:33 Error System.InvalidOperationException: The CommandText property has not been properly initialized.
+   в MySql.Data.MySqlClient.ExceptionInterceptor.Throw(Exception exception)
+   в MySql.Data.MySqlClient.MySqlConnection.Throw(Exception ex)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 62 count=0
+10/15/2014 10:11:03 Trace --------------------------------------------------------------------------------
+10/15/2014 10:11:03 Trace Авторизация прошла успешно
+10/15/2014 10:11:04 Trace Сканирование началось; ThreadID = 13
+10/15/2014 10:11:45 Trace --------------------------------------------------------------------------------
+10/15/2014 10:11:45 Trace Авторизация прошла успешно
+10/15/2014 10:11:49 Trace Сканирование началось; ThreadID = 5
+10/15/2014 10:11:50 Error MySql.Data.MySqlClient.MySqlException (0x80004005): There is already an open DataReader associated with this Connection which must be closed first.
+   в MySql.Data.MySqlClient.ExceptionInterceptor.Throw(Exception exception)
+   в MySql.Data.MySqlClient.MySqlConnection.Throw(Exception ex)
+   в MySql.Data.MySqlClient.MySqlCommand.CheckState()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 62 count=0
+10/15/2014 10:12:22 Trace --------------------------------------------------------------------------------
+10/15/2014 10:12:22 Trace Авторизация прошла успешно
+10/15/2014 10:12:24 Trace Сканирование началось; ThreadID = 14
+10/15/2014 22:27:24 Trace --------------------------------------------------------------------------------
+10/15/2014 22:27:24 Trace Авторизация прошла успешно
+10/15/2014 22:27:25 Trace Сканирование началось; ThreadID = 12
+10/15/2014 22:27:29 Error MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'поножи (старое) AND buyedOut = 1 AND pricePerItem <> "" AND TO_DAYS(' at line 1
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 67 count=0

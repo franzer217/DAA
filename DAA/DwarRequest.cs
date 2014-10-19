@@ -64,7 +64,7 @@ namespace DAA
             request.GetRequestStream().Write(EncodedPostParams, 0, EncodedPostParams.Length);
             request.GetRequestStream().Close();
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            if (response.ResponseUri.ToString() == "http://w1.dwar.ru/main.php")
+            if (response.ResponseUri.ToString() == "http://" + globals.gameWorld + ".dwar.ru/main.php")
             {
                 string streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
                 request.GetResponse().Close();

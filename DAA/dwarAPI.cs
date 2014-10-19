@@ -154,7 +154,7 @@ namespace DAA
         }
         public static void login()
         {
-            if(DwarRequest.postRequest("http://w1.dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password)!="")
+            if(DwarRequest.postRequest("http://" + globals.gameWorld + ".dwar.ru/login.php", ref cookie, "email=" + globals.email + "&passwd=" + globals.password)!="")
             {
                 MessageBox.Show("Авторизация прошла успешно");
                 globals.dwarLog.Trace("--------------------------------------------------------------------------------");
@@ -174,7 +174,7 @@ namespace DAA
             string dbCommand = "CREATE TABLE IF NOT EXISTS categories (browserValue NVARCHAR(10) PRIMARY KEY, categoryName NVARCHAR(50));";
             try
             {
-                string html = DwarRequest.getRequest("http://w1.dwar.ru/area_auction.php", ref cookie);
+                string html = DwarRequest.getRequest("http://" + globals.gameWorld + ".dwar.ru/area_auction.php", ref cookie);
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(html);
                 HtmlNode filter = doc.DocumentNode.SelectSingleNode("//select[@name='_filter[kind]']");
@@ -307,7 +307,6 @@ namespace DAA
                     connection2.Close();
                 if (reader != null && reader.IsClosed == false)
                     reader.Close();
-
             }
         }
         private static DateTime lotEndTime(HtmlNode node, DateTime currentTime)
@@ -343,7 +342,7 @@ namespace DAA
                 MessageBox.Show(exception.ToString());
             }
         }
-        public static bool pageStatus(string URL)
+        public static bool pageExists(string URL)
         {
             string html = DwarRequest.getRequest(URL, ref cookie);
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
@@ -379,17 +378,14 @@ namespace DAA
                 command.CommandText = "REPLACE INTO allItems (itemID, itemName, itemPrice, itemBaseStrength) VALUES";
                 int pageCount = Convert.ToInt32(XmlLib.getFromXml(globals.xmlFilePath, "int", "gameElementsNumber"));
                 HtmlAgilityPack.HtmlDocument doc = null;
-                HtmlNode itemPriceNode = null;               
-                HtmlNode itemStrengthNode = null;
                 while(i < pageCount)
                 {
                     html = DwarRequest.getRequest("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i, ref cookie);
                     doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
-                    itemStrengthNode = doc.DocumentNode.SelectSingleNode("//*[@title='Прочность предмета']");
- 
-                    if (pageStatus("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i) && ((itemPriceNode != null)&&(itemPriceNode.SelectNodes("span")!=null)) && categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText) && doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd") && d.InnerText == "Предмет нельзя передать") != null)
+                    HtmlNode itemPriceNode = doc.DocumentNode.SelectSingleNode("//*[@title='Цена']");
+                    HtmlNode itemStrengthNode = doc.DocumentNode.SelectSingleNode("//*[@title='Прочность предмета']");                               
+                    if (isAddable(doc, categories, i, itemPriceNode, itemStrengthNode))
                     {
                         string nameItem = doc.DocumentNode.SelectNodes("//h1")[1].InnerText;
                         if(nameItem.Length<51)
@@ -426,6 +422,37 @@ namespace DAA
                     connection.Close();
                 if (reader != null && reader.IsClosed == false)
                     reader.Close();
+            }
+        }
+
+        private static bool isAddable(HtmlAgilityPack.HtmlDocument doc, List<string> categories, int i, HtmlNode itemPriceNode, HtmlNode itemStrengthNode)
+        {            
+            bool pageExists = DwarAPI.pageExists("http://w1.dwar.ru/artifact_info.php?artikul_id=" + i);
+            if(!pageExists)
+            {
+                return false;
+            }
+
+            bool notNullPrice = ((itemPriceNode != null) && (itemPriceNode.SelectNodes("span") != null));
+            if (!notNullPrice)
+            {
+                return false;
+            }
+
+            bool itemIsInCategories = categories.Contains(doc.DocumentNode.SelectSingleNode("//*[@title='Тип предмета']").InnerText);
+            if (!itemIsInCategories)
+            {
+                return false;
+            }
+
+            bool itemIsTransportable = !doc.DocumentNode.Descendants("td").Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("redd") && d.InnerText == "Предмет нельзя передать").Any<HtmlNode>();
+            if (!itemIsTransportable)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

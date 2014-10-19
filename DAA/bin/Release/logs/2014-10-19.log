@@ -1,0 +1,496 @@
+10/19/2014 13:07:00 Trace --------------------------------------------------------------------------------
+10/19/2014 13:07:00 Trace Авторизация прошла успешно
+10/19/2014 13:07:08 Trace Сканирование началось; ThreadID = 6
+10/19/2014 13:09:07 Trace Сканирование началось; ThreadID = 10
+10/19/2014 13:11:07 Trace Сканирование началось; ThreadID = 9
+10/19/2014 13:12:20 Trace Сканирование завершено; ThreadID = 6
+10/19/2014 13:13:07 Trace Сканирование началось; ThreadID = 12
+10/19/2014 13:13:35 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 13:14:38 Trace --------------------------------------------------------------------------------
+10/19/2014 13:14:38 Trace Авторизация прошла успешно
+10/19/2014 13:14:39 Trace Сканирование началось; ThreadID = 6
+10/19/2014 13:15:53 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 13:16:39 Trace Сканирование началось; ThreadID = 5
+10/19/2014 13:18:53 Trace --------------------------------------------------------------------------------
+10/19/2014 13:18:53 Trace Авторизация прошла успешно
+10/19/2014 13:18:53 Trace Сканирование началось; ThreadID = 14
+10/19/2014 13:20:07 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 13:25:01 Trace --------------------------------------------------------------------------------
+10/19/2014 13:25:01 Trace Авторизация прошла успешно
+10/19/2014 13:25:02 Trace Сканирование началось; ThreadID = 12
+10/19/2014 13:25:36 Trace --------------------------------------------------------------------------------
+10/19/2014 13:25:36 Trace Авторизация прошла успешно
+10/19/2014 13:25:37 Trace Сканирование началось; ThreadID = 14
+10/19/2014 13:25:48 Trace --------------------------------------------------------------------------------
+10/19/2014 13:25:48 Trace Авторизация прошла успешно
+10/19/2014 13:25:49 Trace Сканирование началось; ThreadID = 13
+10/19/2014 13:26:05 Trace --------------------------------------------------------------------------------
+10/19/2014 13:26:05 Trace Авторизация прошла успешно
+10/19/2014 13:26:06 Trace Сканирование началось; ThreadID = 14
+10/19/2014 13:27:17 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 13:28:19 Trace --------------------------------------------------------------------------------
+10/19/2014 13:28:19 Trace Авторизация прошла успешно
+10/19/2014 13:28:21 Trace Сканирование началось; ThreadID = 13
+10/19/2014 13:30:16 Trace --------------------------------------------------------------------------------
+10/19/2014 13:30:16 Trace Авторизация прошла успешно
+10/19/2014 13:30:17 Trace Сканирование началось; ThreadID = 14
+10/19/2014 13:30:29 Trace --------------------------------------------------------------------------------
+10/19/2014 13:30:29 Trace Авторизация прошла успешно
+10/19/2014 13:30:30 Trace Сканирование началось; ThreadID = 15
+10/19/2014 13:31:41 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в MySql.Data.Common.MyNetworkStream.HandleOrRethrowException(Exception e)
+   в MySql.Data.Common.MyNetworkStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   в System.IO.BufferedStream.Read(Byte[] array, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReaderБлистательный топор урагана
+10/19/2014 14:04:21 Trace --------------------------------------------------------------------------------
+10/19/2014 14:04:21 Trace Авторизация прошла успешно
+10/19/2014 14:04:23 Error MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.getAllItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 413i=6236
+10/19/2014 14:07:32 Error MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.getAllItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 413i=7000
+10/19/2014 15:28:24 Trace --------------------------------------------------------------------------------
+10/19/2014 15:28:24 Trace Авторизация прошла успешно
+10/19/2014 15:34:07 Trace --------------------------------------------------------------------------------
+10/19/2014 15:34:07 Trace Авторизация прошла успешно
+10/19/2014 15:39:11 Error System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в DAA.DwarAPI.isAddable(HtmlDocument doc, List`1 categories, Int32 i, HtmlNode itemPriceNode, HtmlNode itemStrengthNode) в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 433
+   в DAA.DwarAPI.getAllItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 389i=27
+10/19/2014 17:19:58 Trace Предметы получены
+10/19/2014 17:20:32 Trace Сканирование началось; ThreadID = 12
+10/19/2014 17:20:37 Trace --------------------------------------------------------------------------------
+10/19/2014 17:20:37 Trace Авторизация прошла успешно
+10/19/2014 17:20:48 Trace --------------------------------------------------------------------------------
+10/19/2014 17:20:48 Trace Авторизация прошла успешно
+10/19/2014 17:20:49 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:21:37 Trace --------------------------------------------------------------------------------
+10/19/2014 17:21:37 Trace Авторизация прошла успешно
+10/19/2014 17:21:38 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:23:38 Trace Сканирование началось; ThreadID = 7
+10/19/2014 17:24:45 Trace Статистика добавлена
+10/19/2014 17:25:38 Trace Сканирование началось; ThreadID = 13
+10/19/2014 17:27:02 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 17:27:39 Trace Сканирование началось; ThreadID = 18
+10/19/2014 17:27:45 Trace Сканирование завершено; ThreadID = 14
+10/19/2014 17:29:39 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:29:48 Trace Сканирование завершено; ThreadID = 7
+10/19/2014 17:31:39 Trace Сканирование началось; ThreadID = 7
+10/19/2014 17:31:44 Trace Сканирование завершено; ThreadID = 13
+10/19/2014 17:33:26 Trace Сканирование завершено; ThreadID = 18
+10/19/2014 17:33:39 Trace Сканирование началось; ThreadID = 18
+10/19/2014 17:35:12 Trace --------------------------------------------------------------------------------
+10/19/2014 17:35:12 Trace Авторизация прошла успешно
+10/19/2014 17:35:13 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:37:03 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0
+10/19/2014 17:37:13 Trace Сканирование началось; ThreadID = 13
+10/19/2014 17:37:44 Trace --------------------------------------------------------------------------------
+10/19/2014 17:37:45 Trace Авторизация прошла успешно
+10/19/2014 17:37:46 Trace Сканирование началось; ThreadID = 6
+10/19/2014 17:38:54 Trace --------------------------------------------------------------------------------
+10/19/2014 17:38:54 Trace Авторизация прошла успешно
+10/19/2014 17:38:55 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:40:53 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReaderЧервленые наплечники
+10/19/2014 17:40:55 Trace Сканирование началось; ThreadID = 17
+10/19/2014 17:45:44 Trace --------------------------------------------------------------------------------
+10/19/2014 17:45:44 Trace Авторизация прошла успешно
+10/19/2014 17:45:45 Trace Сканирование началось; ThreadID = 12
+10/19/2014 17:47:32 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Червленые наплечники
+10/19/2014 17:47:45 Trace Сканирование началось; ThreadID = 11
+10/19/2014 17:48:46 Trace --------------------------------------------------------------------------------
+10/19/2014 17:48:47 Trace Авторизация прошла успешно
+10/19/2014 17:48:49 Trace Сканирование началось; ThreadID = 15
+10/19/2014 17:50:40 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Червленые наплечники
+10/19/2014 17:50:49 Trace Сканирование началось; ThreadID = 8
+10/19/2014 17:52:49 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:53:56 Trace Сканирование завершено; ThreadID = 15
+10/19/2014 17:54:49 Trace Сканирование началось; ThreadID = 15
+10/19/2014 17:55:56 Trace Сканирование завершено; ThreadID = 8
+10/19/2014 17:57:49 Trace --------------------------------------------------------------------------------
+10/19/2014 17:57:49 Trace Авторизация прошла успешно
+10/19/2014 17:57:50 Trace Сканирование началось; ThreadID = 6
+10/19/2014 17:58:08 Error Ссылка на объект не указывает на экземпляр объекта.    в DAA.DwarAPI.addItems(List`1 nodes, MySqlCommand command) в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 216
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 286 6
+10/19/2014 17:58:14 Trace --------------------------------------------------------------------------------
+10/19/2014 17:58:14 Trace Авторизация прошла успешно
+10/19/2014 17:58:26 Trace --------------------------------------------------------------------------------
+10/19/2014 17:58:27 Trace Авторизация прошла успешно
+10/19/2014 17:58:28 Trace Сканирование началось; ThreadID = 14
+10/19/2014 17:59:25 Trace --------------------------------------------------------------------------------
+10/19/2014 17:59:25 Trace Авторизация прошла успешно
+10/19/2014 17:59:27 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:01:27 Trace Сканирование началось; ThreadID = 17
+10/19/2014 18:01:27 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Червленые наплечники
+10/19/2014 18:01:55 Trace --------------------------------------------------------------------------------
+10/19/2014 18:01:55 Trace Авторизация прошла успешно
+10/19/2014 18:01:56 Trace Сканирование началось; ThreadID = 14
+10/19/2014 18:02:30 Trace --------------------------------------------------------------------------------
+10/19/2014 18:02:30 Trace Авторизация прошла успешно
+10/19/2014 18:02:31 Trace Сканирование началось; ThreadID = 15
+10/19/2014 18:04:28 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Червленые наплечники
+10/19/2014 18:04:31 Trace Сканирование началось; ThreadID = 14
+10/19/2014 18:15:22 Trace --------------------------------------------------------------------------------
+10/19/2014 18:15:22 Trace Авторизация прошла успешно
+10/19/2014 18:15:23 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:17:23 Trace Сканирование началось; ThreadID = 16
+10/19/2014 18:17:42 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Червленые наплечники
+10/19/2014 18:19:23 Trace Сканирование началось; ThreadID = 12
+10/19/2014 18:20:48 Trace Сканирование завершено; ThreadID = 13
+10/19/2014 18:21:24 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:22:49 Trace Сканирование завершено; ThreadID = 16
+10/19/2014 18:23:23 Trace Сканирование началось; ThreadID = 16
+10/19/2014 18:24:53 Trace Сканирование завершено; ThreadID = 12
+10/19/2014 18:25:23 Trace Сканирование началось; ThreadID = 12
+10/19/2014 18:26:49 Trace Сканирование завершено; ThreadID = 13
+10/19/2014 18:27:23 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:28:41 Trace Сканирование завершено; ThreadID = 16
+10/19/2014 18:29:24 Trace Сканирование началось; ThreadID = 16
+10/19/2014 18:30:57 Trace Сканирование завершено; ThreadID = 12
+10/19/2014 18:31:24 Trace Сканирование началось; ThreadID = 12
+10/19/2014 18:33:02 Trace Сканирование завершено; ThreadID = 13
+10/19/2014 18:33:24 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:35:00 Trace Сканирование завершено; ThreadID = 16
+10/19/2014 18:35:24 Trace Сканирование началось; ThreadID = 16
+10/19/2014 18:49:23 Trace --------------------------------------------------------------------------------
+10/19/2014 18:49:23 Trace Авторизация прошла успешно
+10/19/2014 18:49:24 Trace Сканирование началось; ThreadID = 6
+10/19/2014 18:51:24 Trace Сканирование началось; ThreadID = 10
+10/19/2014 18:52:59 Trace Статистика добавлена
+10/19/2014 18:53:24 Trace Сканирование началось; ThreadID = 11
+10/19/2014 18:54:12 Trace Сканирование завершено; ThreadID = 6
+10/19/2014 18:54:47 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Большой имман II
+10/19/2014 18:55:24 Trace Сканирование началось; ThreadID = 8
+10/19/2014 18:56:29 Trace Сканирование завершено; ThreadID = 10
+10/19/2014 18:57:24 Trace Сканирование началось; ThreadID = 10
+10/19/2014 18:58:12 Trace Сканирование завершено; ThreadID = 11
+10/19/2014 18:59:03 Error Ссылка на объект не указывает на экземпляр объекта.    в DAA.DwarAPI.addItems(List`1 nodes, MySqlCommand command) в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 216
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 286 8
+10/19/2014 18:59:03 Error Ссылка на объект не указывает на экземпляр объекта.    в DAA.DwarAPI.addItems(List`1 nodes, MySqlCommand command) в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 216
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 286 10
+10/19/2014 18:59:05 Trace --------------------------------------------------------------------------------
+10/19/2014 18:59:05 Trace Авторизация прошла успешно
+10/19/2014 18:59:06 Trace Сканирование началось; ThreadID = 13
+10/19/2014 18:59:24 Trace Сканирование началось; ThreadID = 9
+10/19/2014 18:59:31 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 9
+10/19/2014 18:59:58 Trace --------------------------------------------------------------------------------
+10/19/2014 18:59:58 Trace Авторизация прошла успешно
+10/19/2014 18:59:58 Trace Сканирование началось; ThreadID = 14
+10/19/2014 19:01:24 Trace Сканирование началось; ThreadID = 5
+10/19/2014 19:01:31 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 5
+10/19/2014 19:01:32 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Большой имман II
+10/19/2014 19:03:24 Trace Сканирование началось; ThreadID = 6
+10/19/2014 19:03:30 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 6
+10/19/2014 19:05:24 Trace Сканирование началось; ThreadID = 11
+10/19/2014 19:05:50 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 11
+10/19/2014 19:07:24 Trace Сканирование началось; ThreadID = 9
+10/19/2014 19:07:52 Error You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DUPLICATE KEY UPDATE itemBid = VALUES(itemBid), lastUpdateTime = VALUES(lastU' at line 1    в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   в MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   в MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   в DAA.DwarAPI.scanItems() в d:\Programming\Projects\VSC#Projects\DAA\DAA\dwarAPI.cs:строка 292 9
+10/19/2014 19:08:35 Trace --------------------------------------------------------------------------------
+10/19/2014 19:08:35 Trace Авторизация прошла успешно
+10/19/2014 19:08:36 Trace Сканирование началось; ThreadID = 5
+10/19/2014 19:13:28 Trace --------------------------------------------------------------------------------
+10/19/2014 19:13:28 Trace Авторизация прошла успешно
+10/19/2014 19:13:29 Trace Сканирование началось; ThreadID = 12
+10/19/2014 19:15:29 Trace Сканирование началось; ThreadID = 16
+10/19/2014 19:16:07 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 64 count=0 Содержание itemReader = Большой имман II
+10/19/2014 19:24:41 Trace --------------------------------------------------------------------------------
+10/19/2014 19:24:41 Trace Авторизация прошла успешно
+10/19/2014 19:24:43 Trace Сканирование началось; ThreadID = 12
+10/19/2014 19:25:55 Trace --------------------------------------------------------------------------------
+10/19/2014 19:25:55 Trace Авторизация прошла успешно
+10/19/2014 19:25:56 Trace Сканирование началось; ThreadID = 15
+10/19/2014 19:27:19 Trace --------------------------------------------------------------------------------
+10/19/2014 19:27:19 Trace Авторизация прошла успешно
+10/19/2014 19:27:21 Trace Сканирование началось; ThreadID = 14
+10/19/2014 19:29:24 Trace --------------------------------------------------------------------------------
+10/19/2014 19:29:25 Trace Авторизация прошла успешно
+10/19/2014 19:29:25 Trace Сканирование началось; ThreadID = 15
+10/19/2014 19:30:34 Trace --------------------------------------------------------------------------------
+10/19/2014 19:30:34 Trace Авторизация прошла успешно
+10/19/2014 19:30:35 Trace Сканирование началось; ThreadID = 14
+10/19/2014 19:33:15 Trace --------------------------------------------------------------------------------
+10/19/2014 19:33:15 Trace Авторизация прошла успешно
+10/19/2014 19:33:16 Trace Сканирование началось; ThreadID = 13
+10/19/2014 19:35:16 Trace Сканирование началось; ThreadID = 15
+10/19/2014 19:35:40 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Большой имман II i = 2679
+10/19/2014 19:37:18 Trace --------------------------------------------------------------------------------
+10/19/2014 19:37:18 Trace Авторизация прошла успешно
+10/19/2014 19:37:19 Trace Сканирование началось; ThreadID = 13
+10/19/2014 19:39:19 Trace Сканирование началось; ThreadID = 17
+10/19/2014 19:41:29 Trace Сканирование началось; ThreadID = 4
+10/19/2014 19:41:33 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Большой имман II i = 2679
