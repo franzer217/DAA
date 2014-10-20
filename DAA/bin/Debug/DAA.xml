@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Root>
   <UsedData>
-	<int name="expectedAuctionScanningTime" desc="Время в минутах, за которое, по нашему мнению, база будет просканирована">5</int>
-	<int name="threadStartDuration" desc="Время в милисекундах после запуска первого потока, когда стартует второй">60000</int>
-	<int name="gameElementsNumber" desc="Количество предметов в дваре">22000</int> 
+	<int name="expectedAuctionScanningTime" desc="Время в минутах, за которое, по нашему мнению, база будет просканирована">2</int>
+	<int name="threadStartDuration" desc="Время в милисекундах после запуска первого потока, когда стартует второй">120000</int>
+	<int name="gameElementsNumber" desc="Количество предметов в дваре">25000</int>
+  <int name="statisticsProcessingPeriod" desc="Период, за который собирается статистика в днях">30</int>
 	<string name="gameWorld" desc="Сервер">w1</string>
 	<string name="email" desc="Почта авторизации">ganton217@gmail.com</string>
-	<string name="password" desc="Пароль авторизации">ee34nf3o</string>
+	<string name="password" desc="Пароль авторизации">ee34nf3o</string>  
   </UsedData>
 </Root>

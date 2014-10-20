@@ -6,7 +6,7 @@
 	<int name="gameElementsNumber" desc="Количество предметов в дваре">25000</int>
   <int name="statisticsProcessingPeriod" desc="Период, за который собирается статистика в днях">30</int>
 	<string name="gameWorld" desc="Сервер">w1</string>
-	<string name="email" desc="Почта авторизации">igorbardin217@gmail.com</string>
+	<string name="email" desc="Почта авторизации">ganton217@gmail.com</string>
 	<string name="password" desc="Пароль авторизации">ee34nf3o</string>  
   </UsedData>
 </Root>

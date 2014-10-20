@@ -494,3 +494,27 @@
    в MySql.Data.MySqlClient.MySqlDataReader.Read()
    в MySql.Data.MySqlClient.MySqlDataReader.Read()
    в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Большой имман II i = 2679
+10/19/2014 21:43:02 Trace --------------------------------------------------------------------------------
+10/19/2014 21:43:02 Trace Авторизация прошла успешно
+10/19/2014 21:43:03 Trace Сканирование началось; ThreadID = 13
+10/19/2014 21:45:03 Trace Сканирование началось; ThreadID = 6
+10/19/2014 21:46:18 Trace Статистика добавлена
+10/19/2014 21:47:03 Trace Сканирование началось; ThreadID = 16
+10/19/2014 21:48:15 Error MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during data read. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Reading from the stream has failed. ---> System.IO.EndOfStreamException: Попытка чтения после конца потока.
+   в MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   в MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   в MySql.Data.MySqlClient.NativeDriver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.Driver.FetchDataRow(Int32 statementId, Int32 columns)
+   в MySql.Data.MySqlClient.ResultSet.GetNextRow()
+   в MySql.Data.MySqlClient.ResultSet.NextRow(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в MySql.Data.MySqlClient.MySqlDataReader.Read()
+   в DAA.Statistics.collectStatistics() в d:\Programming\Projects\VSC#Projects\DAA\DAA\Statistics.cs:строка 65 count=0 Содержание itemReader = Большой имман II i = 2679
+10/19/2014 21:48:57 Trace Сканирование завершено; ThreadID = 13
+10/19/2014 21:49:03 Trace Сканирование началось; ThreadID = 13
+10/19/2014 21:51:03 Trace Сканирование началось; ThreadID = 18
+10/19/2014 23:47:59 Trace --------------------------------------------------------------------------------
+10/19/2014 23:47:59 Trace Авторизация прошла успешно
+10/19/2014 23:48:00 Trace Сканирование началось; ThreadID = 15

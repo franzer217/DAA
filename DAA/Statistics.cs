@@ -53,12 +53,15 @@ namespace DAA
             {
                 MySqlCommand itemCommand = new MySqlCommand();
                 MySqlCommand getPriceCommand = new MySqlCommand();
-                MySqlCommand statCommand = new MySqlCommand();                
+                MySqlCommand statCommand = new MySqlCommand();
+                MySqlCommand avoidDataReadErrorCommand = new MySqlCommand("set net_write_timeout=99999; set net_read_timeout=99999");
+                avoidDataReadErrorCommand.Connection = connection;
                 itemCommand.Connection = connection;
                 getPriceCommand.Connection = connection2;
                 statCommand.Connection = connection3;
                 itemCommand.CommandText = "SELECT itemName FROM allitems;";
                 connection.Open();
+                avoidDataReadErrorCommand.ExecuteNonQuery();
                 connection2.Open();
                 connection3.Open();
                 itemReader = itemCommand.ExecuteReader();
